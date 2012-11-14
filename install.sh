@@ -1,5 +1,8 @@
 #!/bin/bash
 # Thanks to Buck Ryan (github.com/b-ryan) for the template for this script
+#
+# Prereqs:
+# - git, zsh, emacs, curl
 
 LINK_FLAGS="-s"
 if [ "$1" = "--force" ]
@@ -34,5 +37,8 @@ dirlink emacs
 symlink .emacs
 symlink .zshrc
 symlink .gitconfig
+
+# Install oh-my-zsh
+curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
 
 true
