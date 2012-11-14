@@ -1,0 +1,7 @@
+[user]
+	name = Connor McArthur
+	email = cmcarthur@rjmetrics.com
+[color]
+	ui = auto
+[merge]
+	tool = meld

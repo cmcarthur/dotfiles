@@ -3,6 +3,7 @@
 (load-file "emacs/php-mode.el")
 (load-file "emacs/color-theme.el")
 (load-file "emacs/linum.el")
+(load-file "emacs/coffee-mode.el")
 
 (autoload 'ack-same "full-ack" nil t)
 (autoload 'ack "full-ack" nil t)
@@ -11,20 +12,33 @@
 
 (require 'ido)
 (require 'color-theme)
-(require 'color-theme-subdued)
+(require 'color-theme-solarized)
 (require 'php-mode)
+(require 'coffee-mode)
 (require 'linum)
+(require 'powerline)
 
 (setq auto-mode-alist
   (append '(("\\.php$" . php-mode)
     ("\\.tpl$" . php-mode))
       auto-mode-alist))
 
-(color-theme-subdued)
+(color-theme-solarized-dark)
 (ido-mode 1)
 (tool-bar-mode -1)
 (toggle-scroll-bar -1)
 (menu-bar-mode -1)
+
+;; Solarized config
+
+(set-face-attribute 'mode-line nil
+                    :foreground "#073642"
+                    :background "#fdf6e3"
+                    :box nil)
+(set-face-attribute 'mode-line-inactive nil
+					:foreground "#657b83"
+					:background "#859900"
+                    :box nil)
 
 (setq linum-format " %d ")
 (linum-mode 1)
@@ -48,6 +62,8 @@
 
 (global-set-key (kbd "C-x C-c") 'clipboard-kill-ring-save)
 (global-set-key (kbd "C-x C-v") 'clipboard-yank)
+(global-set-key (kbd "C-w") 'backward-kill-word)
+(global-set-key (kbd "C-c C-k") 'kill-region
 (global-set-key (kbd "M-f") 'rgrep)
 (global-set-key (kbd "M-r") 'find-name-dired)
 
@@ -62,9 +78,22 @@
   (term-set-escape-char ?\C-x)
   (switch-to-buffer term-ansi-buffer-name))
 
+(defun connect-server()
+  (interactive)
+  ((lambda (name)
+    (remote-term name "ssh" (concat "rjmdash@" name)))
+  (read-from-minibuffer "Server name: " (first query-replace-defaults))))
+
+(defun connect-vm ()
+  (interactive)
+  (remote-term "vmdev" "ssh" "rjmdash@vmdev"))
+
+(global-set-key (kbd "C-x C-q") 'connect-server)
+
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(default ((t (:stipple nil :background "#000" :foreground "#d3d7cf" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 105 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
+
