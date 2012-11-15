@@ -23,7 +23,7 @@ create_link() {
     SOURCE_REL=$2
     SOURCE_ABS=`pwd`/$2
     LINK=$3
-    [ $LINK ] || LINK=.$SOURCE_REL
+    [ $LINK ] || LINK=$SOURCE_REL
     ln $FLAGS $SOURCE_ABS ~/$LINK && echo "created link to '$SOURCE_ABS'"
 }
 symlink() {
@@ -33,12 +33,12 @@ dirlink() {
     create_link $DIR_LINK_FLAGS $1 $2
 }
 
+# Install oh-my-zsh
+curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
+
 dirlink emacs
 symlink .emacs
 symlink .zshrc
 symlink .gitconfig
-
-# Install oh-my-zsh
-curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
 
 true

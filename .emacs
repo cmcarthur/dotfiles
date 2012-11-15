@@ -1,4 +1,4 @@
-(add-to-list 'load-path "emacs")
+(add-to-list 'load-path "~/emacs")
 
 (load-file "emacs/php-mode.el")
 (load-file "emacs/color-theme.el")
@@ -63,7 +63,7 @@
 (global-set-key (kbd "C-x C-c") 'clipboard-kill-ring-save)
 (global-set-key (kbd "C-x C-v") 'clipboard-yank)
 (global-set-key (kbd "C-w") 'backward-kill-word)
-(global-set-key (kbd "C-c C-k") 'kill-region
+(global-set-key (kbd "C-c C-k") 'kill-region)
 (global-set-key (kbd "M-f") 'rgrep)
 (global-set-key (kbd "M-r") 'find-name-dired)
 
@@ -89,11 +89,4 @@
   (remote-term "vmdev" "ssh" "rjmdash@vmdev"))
 
 (global-set-key (kbd "C-x C-q") 'connect-server)
-
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(default ((t (:stipple nil :background "#000" :foreground "#d3d7cf" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 105 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
 
