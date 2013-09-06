@@ -25,7 +25,7 @@
 
 (defun install-if-not-exists (package-name)
   (unless (package-installed-p package-name)
-	(package-install package-name)))
+          (package-install package-name)))
 
 (install-if-not-exists 'nrepl)
 (install-if-not-exists 'paredit)
