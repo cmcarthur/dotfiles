@@ -34,3 +34,7 @@ plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
+
+alias vm="ssh rjmdash@vmdev"
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

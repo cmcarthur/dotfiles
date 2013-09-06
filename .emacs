@@ -18,6 +18,34 @@
 (require 'linum)
 (require 'powerline)
 
+(require 'package)
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/"))
+(package-initialize)
+
+(defun install-if-not-exists (package-name)
+  (unless (package-installed-p package-name)
+	(package-install package-name)))
+
+(install-if-not-exists 'nrepl)
+(install-if-not-exists 'paredit)
+(install-if-not-exists 'clojure-mode)
+
+(require 'nrepl)
+(require 'clojure-mode)
+(require 'paredit)
+
+;; automatically engage paredit-mode for clojure and lisp files
+
+(autoload 'paredit-mode "paredit"
+  "Minor mode for pseudo-structurally editing Lisp code." t)
+(add-hook 'emacs-lisp-mode-hook       (lambda () (paredit-mode +1)))
+(add-hook 'lisp-mode-hook             (lambda () (paredit-mode +1)))
+(add-hook 'lisp-interaction-mode-hook (lambda () (paredit-mode +1)))
+(add-hook 'scheme-mode-hook           (lambda () (paredit-mode +1)))
+(add-hook 'clojure-mode-hook          (lambda () (paredit-mode +1)))
+
+
 (setq auto-mode-alist
   (append '(("\\.php$" . php-mode)
     ("\\.tpl$" . php-mode))
@@ -90,3 +118,15 @@
 
 (global-set-key (kbd "C-x C-q") 'connect-server)
 
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(safe-local-variable-values (quote ((c-hanging-comment-ender-p)))))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ )
