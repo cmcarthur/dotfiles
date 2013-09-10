@@ -23,6 +23,7 @@
 ;; begin setup
 
 (color-theme-sanityinc-tomorrow-night)
+(projectile-global-mode)
 
 (ido-mode 1)
 (ido-everywhere 1)
@@ -35,7 +36,7 @@
 
 ;; line numbers
 
-(setq linum-format " %d ")
+(setq linum-format " %3d ")
 (linum-mode 1)
 (global-linum-mode 1)
 
