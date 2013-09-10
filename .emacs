@@ -36,7 +36,7 @@
 
 ;; line numbers
 
-(setq linum-format " %3d ")
+(setq linum-format "%4d")
 (linum-mode 1)
 (global-linum-mode 1)
 
