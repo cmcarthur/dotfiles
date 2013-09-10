@@ -2,7 +2,11 @@
 # Thanks to Buck Ryan (github.com/b-ryan) for the template for this script
 #
 # Prereqs:
-# - git, zsh, emacs, curl
+# - git, curl
+#
+# Optional Prereqs:
+# - xmonad, emacs
+
 
 LINK_FLAGS="-s"
 if [ "$1" = "--force" ]
