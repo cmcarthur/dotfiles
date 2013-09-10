@@ -1,20 +1,11 @@
-(add-to-list 'load-path "~/emacs")
-
-(load-file "emacs/php-mode.el")
-(load-file "emacs/color-theme.el")
-(load-file "emacs/linum.el")
-(load-file "emacs/coffee-mode.el")
+;; autoloadz
 
 (autoload 'ack-same "full-ack" nil t)
 (autoload 'ack "full-ack" nil t)
 (autoload 'ack-find-same-file "full-ack" nil t)
 (autoload 'ack-find-file "full-ack" nil t)
 
-(require 'ido)
-(require 'color-theme)
-(require 'php-mode)
-(require 'coffee-mode)
-(require 'linum)
+;; install and require packages
 
 (require 'package)
 (add-to-list 'package-archives
@@ -22,27 +13,23 @@
 (package-initialize)
 (package-refresh-contents)
 
-(defun install-if-not-exists (package-name)
-  (unless (package-installed-p package-name)
-          (package-install package-name)))
+(when (not package-archive-contents) (package-refresh-contents))
 
-(install-if-not-exists 'nrepl)
-(install-if-not-exists 'paredit)
-(install-if-not-exists 'clojure-mode)
-(install-if-not-exists 'ace-jump-mode)
-(install-if-not-exists 'color-theme-sanityinc-tomorrow)
-(install-if-not-exists 'projectile)
-(install-if-not-exists 'flx)
-(install-if-not-exists 'flx-ido)
+;; install and require a bunch of packages
+(mapc
+  (lambda (package)
+    (progn
+	  (unless (package-installed-p package)
+		(package-install package))
+      (require package)))
+  '( nrepl paredit                                     ;; lisp
+     linum color-theme color-theme-sanityinc-tomorrow  ;; appearance
+     projectile ido flx flx-ido ace-jump-mode          ;; search and nav
+     clojure-mode php-mode coffee-mode))               ;; major modes
+
+;; begin setup
 
 (color-theme-sanityinc-tomorrow-night)
-
-(require 'nrepl)
-(require 'clojure-mode)
-(require 'paredit)
-(require 'projectile)
-(require 'flx)
-(require 'flx-ido)
 
 (ido-mode 1)
 (ido-everywhere 1)
@@ -59,15 +46,15 @@
 (linum-mode 1)
 (global-linum-mode 1)
 
+;; php mode
+
 (setq php-force-mode-pear 1)
+(define-key php-mode-map (kbd "TAB") 'self-insert-command)
+
+;; indentation (use tabs, not spaces)
 
 (setq indent-tabs-mode 1)
 (setq-default indent-tabs-mode 1)
-
-(define-key php-mode-map (kbd "TAB") 'self-insert-command)
-
-(setq backup-inhibited t)
-(setq auto-save-default nil)
 
 (setq default-tab-width 4)
 (setq tab-width 4)
@@ -75,13 +62,18 @@
 
 (setq-default c-electric-flag nil)
 
+;; various emacs options
+
+(setq backup-inhibited t)
+(setq auto-save-default nil)
+
+;; key bindings for various emacs fns
 (global-set-key (kbd "C-x C-c") 'clipboard-kill-ring-save)
 (global-set-key (kbd "C-x C-v") 'clipboard-yank)
 (global-set-key (kbd "C-w") 'backward-kill-word)
 (global-set-key (kbd "C-c C-k") 'kill-region)
 (global-set-key (kbd "M-f") 'rgrep)
 (global-set-key (kbd "M-r") 'find-name-dired)
-
 (global-set-key (kbd "C-x C-j") 'ace-jump-char-mode)
 
 ;; add functions to connect to data servers
@@ -95,12 +87,14 @@
   (term-set-escape-char ?\C-x)
   (switch-to-buffer term-ansi-buffer-name))
 
+;; connect to data server
 (defun connect-server()
   (interactive)
   ((lambda (name)
     (remote-term name "ssh" (concat "rjmdash@" name)))
   (read-from-minibuffer "Server name: " (first query-replace-defaults))))
 
+;; connect to vm
 (defun connect-vm ()
   (interactive)
   (remote-term "vmdev" "ssh" "rjmdash@vmdev"))
