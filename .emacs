@@ -12,16 +12,15 @@
 
 (require 'ido)
 (require 'color-theme)
-(require 'color-theme-solarized)
 (require 'php-mode)
 (require 'coffee-mode)
 (require 'linum)
-(require 'powerline)
 
 (require 'package)
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
+(package-refresh-contents)
 
 (defun install-if-not-exists (package-name)
   (unless (package-installed-p package-name)
@@ -30,43 +29,31 @@
 (install-if-not-exists 'nrepl)
 (install-if-not-exists 'paredit)
 (install-if-not-exists 'clojure-mode)
+(install-if-not-exists 'ace-jump-mode)
+(install-if-not-exists 'color-theme-sanityinc-tomorrow)
+(install-if-not-exists 'projectile)
+(install-if-not-exists 'flx)
+(install-if-not-exists 'flx-ido)
+
+(color-theme-sanityinc-tomorrow-night)
 
 (require 'nrepl)
 (require 'clojure-mode)
 (require 'paredit)
+(require 'projectile)
+(require 'flx)
+(require 'flx-ido)
 
-;; automatically engage paredit-mode for clojure and lisp files
-
-(autoload 'paredit-mode "paredit"
-  "Minor mode for pseudo-structurally editing Lisp code." t)
-(add-hook 'emacs-lisp-mode-hook       (lambda () (paredit-mode +1)))
-(add-hook 'lisp-mode-hook             (lambda () (paredit-mode +1)))
-(add-hook 'lisp-interaction-mode-hook (lambda () (paredit-mode +1)))
-(add-hook 'scheme-mode-hook           (lambda () (paredit-mode +1)))
-(add-hook 'clojure-mode-hook          (lambda () (paredit-mode +1)))
-
-
-(setq auto-mode-alist
-  (append '(("\\.php$" . php-mode)
-    ("\\.tpl$" . php-mode))
-      auto-mode-alist))
-
-(color-theme-solarized-dark)
 (ido-mode 1)
+(ido-everywhere 1)
+(flx-ido-mode 1)
+(setq ido-use-faces nil)
+
 (tool-bar-mode -1)
 (toggle-scroll-bar -1)
 (menu-bar-mode -1)
 
-;; Solarized config
-
-(set-face-attribute 'mode-line nil
-                    :foreground "#073642"
-                    :background "#fdf6e3"
-                    :box nil)
-(set-face-attribute 'mode-line-inactive nil
-					:foreground "#657b83"
-					:background "#859900"
-                    :box nil)
+;; line numbers
 
 (setq linum-format " %d ")
 (linum-mode 1)
@@ -95,6 +82,8 @@
 (global-set-key (kbd "M-f") 'rgrep)
 (global-set-key (kbd "M-r") 'find-name-dired)
 
+(global-set-key (kbd "C-x C-j") 'ace-jump-char-mode)
+
 ;; add functions to connect to data servers
 (defun remote-term (new-buffer-name cmd &rest switches)
   (setq term-ansi-buffer-name (concat "*" new-buffer-name "*"))
@@ -119,14 +108,16 @@
 (global-set-key (kbd "C-x C-q") 'connect-server)
 
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (sanityinc-tomorrow-night)))
+ '(custom-safe-themes (quote ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
  '(safe-local-variable-values (quote ((c-hanging-comment-ender-p)))))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  )
