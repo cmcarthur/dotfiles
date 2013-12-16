@@ -23,7 +23,9 @@
 ;; begin setup
 
 (color-theme-sanityinc-tomorrow-night)
+
 (projectile-global-mode)
+(setq projectile-enable-caching t)
 
 (ido-mode 1)
 (ido-everywhere 1)
@@ -44,6 +46,16 @@
 
 (setq php-force-mode-pear 1)
 (define-key php-mode-map (kbd "TAB") 'self-insert-command)
+
+;; uniquify for managing file names
+
+(require 'uniquify)
+(setq
+  uniquify-buffer-name-style 'forward
+  uniquify-separator "/")
+
+;; coffee mode
+
 
 ;; indentation (use tabs, not spaces)
 
@@ -94,6 +106,8 @@
   (remote-term "vmdev" "ssh" "rjmdash@vmdev"))
 
 (global-set-key (kbd "C-x C-q") 'connect-server)
+
+(set-face-attribute 'default nil :height 120)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
