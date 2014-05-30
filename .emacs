@@ -73,6 +73,12 @@
 (setq backup-inhibited t)
 (setq auto-save-default nil)
 
+;; Remove trailing whitespace
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; Add newline to EOF
+(setq require-final-newline t)
+
 ;; key bindings for various emacs fns
 (global-set-key (kbd "C-x C-c") 'clipboard-kill-ring-save)
 (global-set-key (kbd "C-x C-v") 'clipboard-yank)
@@ -123,3 +129,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'downcase-region 'disabled nil)
