@@ -44,5 +44,6 @@ dirlink .xmonad
 symlink .emacs
 symlink .zshrc
 symlink .gitconfig
+symlink .tmux.conf
 
 true
