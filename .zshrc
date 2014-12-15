@@ -37,4 +37,6 @@ source $ZSH/oh-my-zsh.sh
 
 alias vm="ssh rjmdash@vmdev"
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+PATH=$PATH:$HOME/bin:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+source ~/.lein/aws_creds.sh

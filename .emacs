@@ -2,7 +2,8 @@
 
 (require 'package)
 (add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/"))
+             '("marmalade" . "http://marmalade-repo.org/packages/")
+             '("melpa" . "http://melpa.milkbox.net/packages/"))
 (package-initialize)
 (package-refresh-contents)
 
@@ -12,13 +13,13 @@
 (mapc
   (lambda (package)
     (progn
-	  (unless (package-installed-p package)
-		(package-install package))
+      (unless (package-installed-p package)
+        (package-install package))
       (require package)))
-  '( nrepl paredit                                     ;; lisp
-     linum color-theme color-theme-sanityinc-tomorrow  ;; appearance
-     projectile ido flx flx-ido ace-jump-mode          ;; search and nav
-     clojure-mode php-mode coffee-mode))               ;; major modes
+  '( nrepl rainbow-delimiters cider ac-cider smartparens ;; lisp
+     linum color-theme color-theme-sanityinc-tomorrow    ;; appearance
+     projectile ido flx flx-ido auto-complete            ;; search and nav
+     clojure-mode php-mode coffee-mode))                 ;; major modes
 
 ;; begin setup
 
@@ -32,9 +33,10 @@
 (flx-ido-mode 1)
 (setq ido-use-faces nil)
 
-(tool-bar-mode -1)
+(tool-bar-mode 0)
 (toggle-scroll-bar -1)
 (menu-bar-mode -1)
+(global-auto-complete-mode 1)
 
 ;; line numbers
 
@@ -46,6 +48,18 @@
 
 (setq php-force-mode-pear 1)
 (define-key php-mode-map (kbd "TAB") 'self-insert-command)
+
+;; clojure mode
+
+(add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
+
+;; cider mode
+(require 'ac-cider)
+(add-hook 'cider-mode-hook 'ac-flyspell-workaround)
+(add-hook 'cider-mode-hook 'ac-cider-setup)
+(add-hook 'cider-repl-mode-hook 'ac-cider-setup)
+(eval-after-load "auto-complete"
+  '(add-to-list 'ac-modes 'cider-mode))
 
 ;; uniquify for managing file names
 
@@ -111,6 +125,10 @@
   (interactive)
   (remote-term "vmdev" "ssh" "rjmdash@vmdev"))
 
+;; mac specific
+(define-key global-map [home] 'beginning-of-line)
+(define-key global-map [end] 'end-of-line)
+
 (global-set-key (kbd "C-x C-q") 'connect-server)
 
 (set-face-attribute 'default nil :height 120)
@@ -121,7 +139,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes (quote (sanityinc-tomorrow-night)))
- '(custom-safe-themes (quote ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
+ '(custom-safe-themes
+   (quote
+	("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
  '(safe-local-variable-values (quote ((c-hanging-comment-ender-p)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
