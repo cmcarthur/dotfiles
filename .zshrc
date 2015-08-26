@@ -40,3 +40,4 @@ alias vm="ssh rjmdash@vmdev"
 PATH=$PATH:$HOME/bin:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 source ~/.lein/aws_creds.sh
+export PATH=/usr/local/bin:$PATH

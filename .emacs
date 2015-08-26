@@ -1,3 +1,16 @@
+;; custom cache
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (sanityinc-tomorrow-night)))
+ '(custom-safe-themes
+   (quote
+	("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
+ '(safe-local-variable-values (quote ((c-hanging-comment-ender-p)))))
+
 ;; install and require packages
 
 (require 'package)
@@ -18,7 +31,7 @@
       (require package)))
   '( nrepl rainbow-delimiters cider ac-cider smartparens ;; lisp
      linum color-theme color-theme-sanityinc-tomorrow    ;; appearance
-     projectile ido flx flx-ido auto-complete            ;; search and nav
+     projectile ido flx flx-ido iy-go-to-char            ;; search and nav
      clojure-mode php-mode coffee-mode))                 ;; major modes
 
 ;; begin setup
@@ -36,7 +49,11 @@
 (tool-bar-mode 0)
 (toggle-scroll-bar -1)
 (menu-bar-mode -1)
-(global-auto-complete-mode 1)
+
+;; go-to-char settings
+
+(global-set-key (kbd "C-c f") 'iy-go-to-char)
+(global-set-key (kbd "C-c d") 'iy-go-to-char-backward)
 
 ;; line numbers
 
@@ -52,14 +69,13 @@
 ;; clojure mode
 
 (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'php-mode-hook (lambda () (electric-indent-local-mode -1)))
 
 ;; cider mode
 (require 'ac-cider)
 (add-hook 'cider-mode-hook 'ac-flyspell-workaround)
 (add-hook 'cider-mode-hook 'ac-cider-setup)
 (add-hook 'cider-repl-mode-hook 'ac-cider-setup)
-(eval-after-load "auto-complete"
-  '(add-to-list 'ac-modes 'cider-mode))
 
 ;; uniquify for managing file names
 
@@ -81,6 +97,7 @@
 (setq c-basic-indent 4)
 
 (setq-default c-electric-flag nil)
+(set (make-local-variable 'electric-indent-mode) nil)
 
 ;; various emacs options
 
@@ -102,29 +119,6 @@
 (global-set-key (kbd "M-r") 'find-name-dired)
 (global-set-key (kbd "C-x C-j") 'ace-jump-char-mode)
 
-;; add functions to connect to data servers
-(defun remote-term (new-buffer-name cmd &rest switches)
-  (setq term-ansi-buffer-name (concat "*" new-buffer-name "*"))
-  (setq term-ansi-buffer-name (generate-new-buffer-name term-ansi-buffer-name))
-  (setq term-ansi-buffer-name (apply 'make-term term-ansi-buffer-name cmd nil switches))
-  (set-buffer term-ansi-buffer-name)
-  (term-mode)
-  (term-char-mode)
-  (term-set-escape-char ?\C-x)
-  (switch-to-buffer term-ansi-buffer-name))
-
-;; connect to data server
-(defun connect-server()
-  (interactive)
-  ((lambda (name)
-    (remote-term name "ssh" (concat "rjmdash@" name)))
-  (read-from-minibuffer "Server name: " (first query-replace-defaults))))
-
-;; connect to vm
-(defun connect-vm ()
-  (interactive)
-  (remote-term "vmdev" "ssh" "rjmdash@vmdev"))
-
 ;; mac specific
 (define-key global-map [home] 'beginning-of-line)
 (define-key global-map [end] 'end-of-line)
@@ -133,16 +127,6 @@
 
 (set-face-attribute 'default nil :height 120)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (sanityinc-tomorrow-night)))
- '(custom-safe-themes
-   (quote
-	("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
- '(safe-local-variable-values (quote ((c-hanging-comment-ender-p)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -150,3 +134,6 @@
  ;; If there is more than one, they won't work right.
  )
 (put 'downcase-region 'disabled nil)
+
+;; No splash screen
+(setq inhibit-startup-message t)
