@@ -44,3 +44,7 @@ PATH=$PATH:$HOME/bin:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 source ~/.lein/aws_creds.sh
 export PATH=/usr/local/bin:$PATH
+
+source /usr/local/bin/virtualenvwrapper.sh
+export PATH=$PATH:/Users/connormcarthur/blackbox/bin
+source ~/aws-assume-role.sh
