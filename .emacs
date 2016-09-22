@@ -27,7 +27,7 @@
       (unless (package-installed-p package)
         (package-install package))
       (require package)))
-  '( nrepl rainbow-delimiters cider ac-cider smartparens ;; lisp
+  '( rainbow-delimiters cider ac-cider smartparens ;; lisp
      linum color-theme color-theme-sanityinc-tomorrow    ;; appearance
      projectile ido flx flx-ido iy-go-to-char            ;; search and nav
      hcl-mode terraform-mode clojure-mode php-mode
