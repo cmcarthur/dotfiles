@@ -10,15 +10,11 @@ out_to_console yes
 update_interval 1
 total_run_times 0
 use_spacer none
- 
+
 TEXT
 ^fg(\#fdf6e3)Load:^fg() \
 ^fg(\#fdf6e3)${loadavg 1}^fg() \
 ^fg(\#93a1a1)${loadavg 2}^fg() \
-^fg(\#657b83)${loadavg 3}^fg()  |  \
-^fg(\#fdf6e3)CPU 1:${lua_parse pad ${cpu cpu1}}% ${alignc} \
-2:${lua_parse pad ${cpu cpu2}}% ${alignc} \
-3:${lua_parse pad ${cpu cpu3}}% ${alignc} \
-4:${lua_parse pad ${cpu cpu4}}%^fg()  |  \
-Mem usage: ^fg(\#b58900)${mem}^fg()  |  \
+^fg(\#657b83)${loadavg 3}^fg() | \
+Mem usage: ^fg(\#b58900)${mem}^fg() | \
 ^fg(\#fdf6e3)${time %B %d %Y --- %I:%M %p}   ^fg()
