@@ -15,7 +15,7 @@ main = do
     dzenRightBar <- spawnPipe myConkyBar
     xmonad $ gnomeConfig {
 		modMask = mod4Mask -- mod key = win
-		, workspaces          = [ "1:local", "2:vm", "3:prod", "4:browser", "5:personal" ]
+		, workspaces          = [ "1:local", "2:vm", "3:prod", "4:browser", "5:personal", "6:authy" ]
 		, logHook             = myLogHook dzenLeftBar >> fadeInactiveLogHook 0xdddddddd
 
 	}
