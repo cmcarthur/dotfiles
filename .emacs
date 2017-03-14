@@ -31,7 +31,7 @@
      linum color-theme color-theme-sanityinc-tomorrow    ;; appearance
      projectile ido flx flx-ido iy-go-to-char            ;; search and nav
      hcl-mode terraform-mode clojure-mode php-mode
-     coffee-mode))  ;; major modes
+     coffee-mode flycheck))  ;; major modes
 
 ;; set the path as terminal path [http://lists.gnu.org/archive/html/help-gnu-emacs/2011-10/msg00237.html]
 (setq explicit-bash-args (list "--login" "-i"))
@@ -67,15 +67,25 @@
 
 ;; line numbers
 
-(setq linum-format "%4d ")
-(linum-mode 1)
-(global-linum-mode 1)
-
 ;; php mode
 
 (setq php-force-mode-pear 1)
 (define-key php-mode-map (kbd "TAB") 'self-insert-command)
 (add-hook 'php-mode-hook (lambda () (electric-indent-local-mode -1)))
+
+;; python mode
+
+(require 'column-marker)
+(add-hook 'python-mode-hook (lambda () (interactive) (column-marker-3 79)))
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+(setq flycheck-global-modes '(python-mode))
+
+(defun check-syntax ()
+  (when (eq major-mode 'python-mode)
+    (flycheck-list-errors)))
+
+(add-hook 'after-save-hook #'check-syntax)
 
 ;; clojure mode
 
